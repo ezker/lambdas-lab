@@ -1,6 +1,12 @@
 package com.javanme.java8;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import static java.util.Comparator.comparing;
+import static java.util.Comparator.naturalOrder;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
 
 /**
  * Clase con ejercicios nivel básico
@@ -17,7 +23,8 @@ public class Basico {
      * @return Lista que contiene las palabras en mayúsculas
      */
     public List<String> ejercicio1(List<String> palabras) {
-        throw new UnsupportedOperationException();
+        palabras.replaceAll(String::toUpperCase);
+        return palabras;
     }
 
     /**
@@ -29,7 +36,9 @@ public class Basico {
      * @return lista que contiene cadenas de texto cuyo tamaño de caracteres es superior a 10
      */
     public List<String> ejercicio2(List<String> listado) {
-        throw new UnsupportedOperationException();
+        List<String> nuevaLista = new ArrayList<>(listado);
+        nuevaLista.removeIf(s -> s.length() <= 10);
+        return nuevaLista;
     }
 
     /**
@@ -42,7 +51,10 @@ public class Basico {
      * @see java.util.stream.Collectors
      */
     public String ejercicio3(List<String> listado) {
-        throw new UnsupportedOperationException();
+        return listado.stream()
+                .skip(2)
+                .limit(3)
+                .collect(joining("-"));
     }
 
     /**
@@ -56,7 +68,10 @@ public class Basico {
      * @see java.util.stream.Collectors
      */
     public List<Integer> ejercicio4(List<String> listado) {
-        throw new UnsupportedOperationException();
+        return listado.stream()
+                .map(Integer::valueOf)
+                .sorted()
+                .collect(toList());
     }
 
     /**
@@ -70,6 +85,8 @@ public class Basico {
      * @see java.util.stream.Collectors
      */
     public List<String> ejercicio5(List<String> listado) {
-        throw new UnsupportedOperationException();
+        return listado.stream()
+                .sorted(comparing(String::length).thenComparing(naturalOrder()))
+                .collect(toList());
     }
 }
