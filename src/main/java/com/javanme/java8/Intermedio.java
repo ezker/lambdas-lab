@@ -1,9 +1,15 @@
 package com.javanme.java8;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
-import java.util.Map;
-import java.util.OptionalInt;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Stream;
+
+import static java.util.Comparator.comparing;
+import static java.util.Comparator.naturalOrder;
+import static java.util.stream.Collectors.*;
 
 /**
  * Clase con ejercicios nivel intermedio
@@ -24,7 +30,14 @@ public class Intermedio {
      * @see java.util.stream.Stream
      */
     public long ejercicio1(Path archivo) {
-        throw new UnsupportedOperationException();
+        try (Stream<String> lines = Files.lines(archivo)) {
+            return lines
+                    .filter(line -> !line.isEmpty())
+                    .count();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return 0L;
     }
 
     /**
@@ -40,7 +53,12 @@ public class Intermedio {
      * @see java.util.stream.IntStream
      */
     public OptionalInt ejercicio2(Path archivo) {
-        throw new UnsupportedOperationException();
+        try (Stream<String> lines = Files.lines(archivo)) {
+            return lines.mapToInt(String::length).max();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return OptionalInt.empty();
     }
 
     /**
@@ -61,7 +79,17 @@ public class Intermedio {
      * @see java.util.stream.Collectors
      */
     public String ejercicio3(Path archivo) {
-        throw new UnsupportedOperationException();
+        try (Stream<String> lines = Files.lines(archivo)) {
+            return lines.map(line -> line.toLowerCase().split(REGEXP))
+                    .flatMap(Arrays::stream)
+                    .distinct()
+                    .filter(word -> !word.isEmpty())
+                    .sorted(comparing(String::length).thenComparing(naturalOrder()))
+                    .collect(joining(" "));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     /**
@@ -80,7 +108,16 @@ public class Intermedio {
      * @see java.util.stream.Collectors
      */
     public Map<Integer, List<String>> ejercicio4(Path archivo) {
-        throw new UnsupportedOperationException();
+        try (Stream<String> lines = Files.lines(archivo)) {
+            return lines.limit(10)
+                    .map(line -> line.split(REGEXP))
+                    .flatMap(Arrays::stream)
+                    .filter(word -> !word.isEmpty())
+                    .collect(groupingBy(String::length));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new HashMap<>();
     }
 
 
@@ -100,7 +137,16 @@ public class Intermedio {
      * @see java.util.stream.Collectors
      */
     public Map<String, Long> ejercicio5(Path archivo) {
-        throw new UnsupportedOperationException();
+        try (Stream<String> lines = Files.lines(archivo)) {
+            return lines.limit(100)
+                    .map(line -> line.split(REGEXP))
+                    .flatMap(Arrays::stream)
+                    .filter(word -> !word.isEmpty())
+                    .collect(groupingBy(Function.identity(), counting()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new HashMap<>();
     }
 
     /**
@@ -127,7 +173,16 @@ public class Intermedio {
      * @see java.util.stream.Collectors
      */
     public Map<String, Map<Integer, List<String>>> ejercicio6(Path archivo) {
-        throw new UnsupportedOperationException();
+        try (Stream<String> lines = Files.lines(archivo)) {
+            return lines.map(line -> line.toLowerCase().split(REGEXP))
+                    .flatMap(Arrays::stream)
+                    .distinct()
+                    .filter(word -> !word.isEmpty())
+                    .collect(groupingBy(w -> w.substring(0, 1).toUpperCase(), groupingBy(String::length)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new HashMap<>();
     }
 }
 
