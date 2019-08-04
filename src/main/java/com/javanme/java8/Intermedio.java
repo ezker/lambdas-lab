@@ -178,7 +178,7 @@ public class Intermedio {
                     .flatMap(Arrays::stream)
                     .distinct()
                     .filter(word -> !word.isEmpty())
-                    .collect(groupingBy(w -> w.substring(0, 1).toUpperCase(), groupingBy(String::length)));
+                    .collect(groupingBy(word -> word.substring(0, 1).toUpperCase(), groupingBy(String::length)));
         } catch (IOException e) {
             e.printStackTrace();
         }
