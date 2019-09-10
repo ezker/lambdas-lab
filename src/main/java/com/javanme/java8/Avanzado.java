@@ -30,6 +30,6 @@ public class Avanzado {
      * @return El máximo de los números pasados por param.
      */
     public long ejercicio2(List<Long> numeros) {
-        return numeros.stream().reduce(Long.MIN_VALUE, Long::max);
+        return numeros.stream().reduce(Long::max).get();
     }
 }
